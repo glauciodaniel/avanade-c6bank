@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import {
     Typography,
     Container,
@@ -35,25 +35,46 @@ const theme = createTheme();
 
 
 export default function LoginPage(){
-const [password, setPassword] = useState<string | undefined | null | FormDataEntryValue>('');
-const [error, setError] = useState<string | boolean>('');
+
+//state com variável.
+// one way data binding. significa que o react envia dados para o DOM. O que o DOM faz não importa.
+
+
+const [email, setEmail] = useState<string | undefined |null>('');
+const [password, setPassword] = useState<string | undefined | null>('');
+//error
+//errorMessage
+//open
+//contador
+const [error, setError] = useState<boolean>(false);
 const [errorMessage, setErrorMessage] = useState<string>('');
+const [open, setOpen] = useState<boolean>(false);
+const [contador, setContador] = useState<number>(0);
+
+
+//Execute automaticamente após o primeiro render da página.
+//Executa a cada alteração de estado ou recarregamento da página.
+useEffect(()=>{
+
+    if(contador == 0){
+        document.title = `Executando useEffect a primeira vez. Contador: ${contador}`;
+    }else{
+        document.title = `Executando useEffect ${contador} vezes`;
+    }
+
+    console.log(`Chamou o useEffect ${contador} vezes`);
+    //vai Corinthians;
+
+});
+
 //aqui a mágica acontece
 const handleSubmit = (event: FormEvent<HTMLFormElement>)=>{
     //pára tudo!!!
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
 
     setPassword(data.get('password'));
-    if(password && password.length < 6 ){
-        setError(true);
-        setErrorMessage("Tá de brincadeira né? Senha muito curta!");
-    }
-    console.log({
-        email: data.get('email'),
-        password: data.get('password'),
-    });
+
 }
 
 
@@ -61,6 +82,9 @@ const handleSubmit = (event: FormEvent<HTMLFormElement>)=>{
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
+
+      <button onClick={()=>setContador(contador+1)}>Mudando o Contador</button>
+      Contador vale {contador}
                 <Box sx={{mt:8,
                      display:'flex',
                      flexDirection: 'column',
