@@ -65,7 +65,7 @@ useEffect(()=>{
     console.log(`Chamou o useEffect ${contador} vezes`);
     //vai Corinthians;
 
-});
+},[contador]);
 
 //aqui a mágica acontece
 const handleSubmit = (event: FormEvent<HTMLFormElement>)=>{
@@ -76,6 +76,19 @@ const handleSubmit = (event: FormEvent<HTMLFormElement>)=>{
     setPassword(data.get('password'));
 
 }
+
+
+useEffect(()=>{
+
+    if(password && password.length < 6){
+        setError(true);
+        setErrorMessage('A senha deve ter no mínimo 6 caracteres');
+    }else if(password){
+        setError(false);
+        setErrorMessage('');
+    }
+},[password]);
+
 
 
     return (
@@ -104,7 +117,9 @@ const handleSubmit = (event: FormEvent<HTMLFormElement>)=>{
                         <Button type="submit" fullWidth variant="contained" sx={{mt:3, mb:2}}>
                             Login
                         </Button>
+
                         {error && <Typography color="error">{errorMessage}</Typography>}
+                        
                     </Box>
                 </Box>
 
