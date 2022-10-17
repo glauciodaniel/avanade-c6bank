@@ -7,12 +7,10 @@ import {
     Checkbox,
     Box,
     CssBaseline,
-    Stack,
-    Snackbar
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
-
+import Snackbar from '../components/utils/Snackbar';
 import Copyright from '../components/utils/Copyright';
 
 
@@ -122,6 +120,7 @@ useEffect(()=>{
                 </Box>
 
                 <Copyright site="avanade"/>
+                {open && <Snackbar open={open} hide={5} message={'Usuário logado com sucesso! ...Aguarde...'} severity="success"/>}
             </Container>
         </ThemeProvider>
     )
