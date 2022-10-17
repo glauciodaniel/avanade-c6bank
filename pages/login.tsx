@@ -3,33 +3,23 @@ import {
     Typography,
     Container,
     Button,
-    Avatar,
     TextField,
     Checkbox,
-    Grid,
     Box,
-    CssBaseline} from '@mui/material';
-import Link from 'next/link';
+    CssBaseline,
+    Stack,
+    Snackbar
+} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
+
+import Copyright from '../components/utils/Copyright';
+
+
+
+
 //@mui/material
 
-type CopyProps = {
-    site?: string;
-}
-function Copyright(props: CopyProps){
-    return(
-        <Typography>
-            {'Copyright © '}
-            <Link color="inherit" href={`https://www.${props.site}.com.br`}>
-            {props.site}
-            </Link>
-            {' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    )
-}
 
 const theme = createTheme();
 
@@ -41,7 +31,7 @@ export default function LoginPage(){
 
 
 const [email, setEmail] = useState<string | undefined |null>('');
-const [password, setPassword] = useState<string | undefined | null>('');
+const [password, setPassword] = useState<string | undefined | null | FormDataEntryValue>('');
 //error
 //errorMessage
 //open
@@ -50,6 +40,8 @@ const [error, setError] = useState<boolean>(false);
 const [errorMessage, setErrorMessage] = useState<string>('');
 const [open, setOpen] = useState<boolean>(false);
 const [contador, setContador] = useState<number>(0);
+
+
 
 
 //Execute automaticamente após o primeiro render da página.
@@ -86,18 +78,24 @@ useEffect(()=>{
     }else if(password){
         setError(false);
         setErrorMessage('');
+        //chamar a API do server para validar usuários e senha.
+        //se estiver tudo certo, redirecionar para a página de extrato.
+
+        //adicionar o snackbar
+        setOpen(true);
+        //fazer o redirect
     }
 },[password]);
-
-
 
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
+    {/* <Snackbar open={open} duration={6} message={'Usuário logado com sucesso! ...Aguarde...'}> */}
 
-      <button onClick={()=>setContador(contador+1)}>Mudando o Contador</button>
-      Contador vale {contador}
+   
+      {/* <button onClick={()=>setContador(contador+1)}>Mudando o Contador</button>
+      Contador vale {contador} */}
                 <Box sx={{mt:8,
                      display:'flex',
                      flexDirection: 'column',
@@ -119,7 +117,7 @@ useEffect(()=>{
                         </Button>
 
                         {error && <Typography color="error">{errorMessage}</Typography>}
-                        
+
                     </Box>
                 </Box>
 
