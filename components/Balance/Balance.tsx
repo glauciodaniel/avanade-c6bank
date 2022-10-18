@@ -10,7 +10,7 @@ const BalanceContainer = styled.div`
     color: #f8f8f8;
     background: #242424;
     padding-left: 30px;
-    margin-bottom: 30px;
+    padding-bottom: 30px;
     & > div > strong{
         font-size: 1.8rem;
         margin-right: 10%;
