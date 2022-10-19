@@ -8,7 +8,9 @@ import db from '../utils/db';
 const ExtractContentContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width:100%;
+    width: calc(100% - 450px);
+    position: absolute;
+    right:0;
     min-height: 100vh;
 `
 export default function ExtractContent() {

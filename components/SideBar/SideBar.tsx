@@ -10,6 +10,7 @@ const SideBarContainer = styled.div`
     width: 450px;
     height: 100vh;
     background: #242424;
+    position: fixed;
 `
 
 export default function SideBar() {

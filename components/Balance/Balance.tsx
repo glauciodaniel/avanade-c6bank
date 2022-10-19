@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import Link from 'next/link';
-
+import {showSVG} from '../svg/showSVG';
+import {hideSVG} from '../svg/hideSVG';
+import {VisibilityIcon, VisibilityOffIcon} from '@mui/icons-material';
+// npm i @mui/icons-material
 const BalanceContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -38,8 +41,9 @@ const [show, setShow] = useState<boolean>(false);
         }
 
             <button onClick={() => setShow(!show)}>
-                {show ? 'Esconder' : 'Mostrar'}
+                {show ? <VisibilityOffIcon/> : <VisibilityIcon/>}
             </button>
+            {/* {show ? hideSVG : showSVG} */}
         </div>
     </BalanceContainer>
   )
