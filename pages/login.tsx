@@ -12,7 +12,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Snackbar from '../components/utils/Snackbar';
 import Copyright from '../components/utils/Copyright';
-
+import axios from 'axios';
+import {useRouter} from 'next/router';
 
 
 
@@ -23,17 +24,13 @@ const theme = createTheme();
 
 
 export default function LoginPage(){
-
+const router = useRouter();
 //state com variável.
 // one way data binding. significa que o react envia dados para o DOM. O que o DOM faz não importa.
 
 
-const [email, setEmail] = useState<string | undefined |null>('');
+const [email, setEmail] = useState<string | undefined |null | FormDataEntryValue >('');
 const [password, setPassword] = useState<string | undefined | null | FormDataEntryValue>('');
-//error
-//errorMessage
-//open
-//contador
 const [error, setError] = useState<boolean>(false);
 const [errorMessage, setErrorMessage] = useState<string>('');
 const [open, setOpen] = useState<boolean>(false);
@@ -63,6 +60,7 @@ const handleSubmit = (event: FormEvent<HTMLFormElement>)=>{
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
+    setEmail(data.get('email'));
     setPassword(data.get('password'));
 
 }
@@ -79,9 +77,28 @@ useEffect(()=>{
         //chamar a API do server para validar usuários e senha.
         //se estiver tudo certo, redirecionar para a página de extrato.
 
+        
         //adicionar o snackbar
-        setOpen(true);
+        //setOpen(true);
         //fazer o redirect
+
+        axios.post('http://localhost:3000/auth/login',{
+            login: email,
+            password: password
+        }).then((response)=>{
+            console.log(response);
+            if(response.status == 200 || response.status == 201){
+                setOpen(true);
+
+                setTimeout(()=>{
+                    router.push('/extract');
+                }, 3000);
+
+            }
+        }
+        ).catch((error)=>{
+            console.log(error);
+        });
     }
 },[password]);
 
@@ -105,8 +122,10 @@ useEffect(()=>{
                     </Typography>
                     {/* Qualquer comentário */}
                     <Box component="form" onSubmit={handleSubmit} sx={{mt:1}}>
-                        <TextField margin="normal" required id="email" name="email" fullWidth label="Digite o login"  autoComplete="email" />
-                        <TextField margin="normal" required fullWidth id="password" name="password" type="password" label="Digite a senha" autoComplete="current-password"/>
+                        
+                        <TextField margin="normal" type="text" required id="email" name="email" fullWidth label="Digite o login"  autoComplete="email" />
+
+                        <TextField margin="normal" type="password" required fullWidth id="password" name="password" label="Digite a senha" autoComplete="current-password"/>
                         <FormControlLabel
                         control={<Checkbox value="remember" color="primary"/>}
                         label="Lembrar-me"
